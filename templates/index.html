@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bus Ticket Booking</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button, input { margin: 5px; padding: 8px; }
+        #output { margin-top: 15px; padding: 10px; border: 1px solid #ccc; background: #f7f7f7; }
+    </style>
+</head>
+<body>
+    <h1>🚌 Bus Ticket Booking</h1>
+
+    <h3>Book a Ticket</h3>
+    <input type="text" id="name" placeholder="Passenger Name">
+    <input type="text" id="bus" placeholder="Bus No.">
+    <input type="text" id="seat" placeholder="Seat No.">
+    <button onclick="bookTicket()">Book</button>
+
+    <h3>Show All Tickets</h3>
+    <button onclick="getTickets()">Get Tickets</button>
+
+    <h3>Update a Ticket</h3>
+    <input type="number" id="updateId" placeholder="Ticket ID">
+    <input type="text" id="updateName" placeholder="New Name">
+    <button onclick="updateTicket()">Update</button>
+
+    <h3>Cancel a Ticket</h3>
+    <input type="number" id="deleteId" placeholder="Ticket ID">
+    <button onclick="deleteTicket()">Cancel</button>
+
+    <div id="output">Response will appear here...</div>
+
+    <script>
+        const output = document.getElementById("output");
+
+        function getTickets() {
+            fetch('/tickets')
+            .then(res => res.json())
+            .then(data => output.innerText = JSON.stringify(data, null, 2));
+        }
+
+        function bookTicket() {
+            const name = document.getElementById("name").value;
+            const bus = document.getElementById("bus").value;
+            const seat = document.getElementById("seat").value;
+
+            fetch('/tickets', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name, bus, seat})
+            })
+            .then(res => res.json())
+            .then(data => output.innerText = JSON.stringify(data, null, 2));
+        }
+
+        function updateTicket() {
+            const id = document.getElementById("updateId").value;
+            const name = document.getElementById("updateName").value;
+
+            fetch('/tickets/' + id, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name})
+            })
+            .then(res => res.json())
+            .then(data => output.innerText = JSON.stringify(data, null, 2));
+        }
+
+        function deleteTicket() {
+            const id = document.getElementById("deleteId").value;
+            fetch('/tickets/' + id, { method: 'DELETE' })
+            .then(res => res.json())
+            .then(data => output.innerText = JSON.stringify(data, null, 2));
+        }
+    </script>
+</body>
+</html>
