@@ -1,30 +1,3 @@
-# 🚌 Bus Ticket Booking System
-
-A comprehensive, modern bus ticket booking system built with Flask and Python. This system provides a complete API backend with a beautiful web interface for managing bus reservations.
-
-## 🌟 Features
-
-### Core Functionality
-- **Ticket Booking**: Book tickets with passenger details, bus selection, and seat assignment
-- **Seat Management**: Real-time seat availability with visual seat selection
-- **Ticket Management**: Update passenger information and cancel reservations
-- **Bus Fleet Management**: Track multiple buses with occupancy rates
-- **Search & Filter**: Find tickets by bus, status, or other criteria
-
-### Advanced Features
-- **Performance Monitoring**: Real-time system metrics and API analytics
-- **Database Integration**: SQLite database with audit logging
-- **Input Validation**: Comprehensive data validation and sanitization
-- **Error Handling**: Robust error handling with detailed responses
-- **CLI Management**: Command-line interface for bulk operations
-- **Testing Suite**: Comprehensive unit tests for all components
-
-### Modern UI
-- **Responsive Design**: Mobile-friendly interface
-- **Interactive Seat Map**: Visual seat selection with availability status
-- **Real-time Updates**: Dynamic content updates without page refresh
-- **Statistics Dashboard**: Live system statistics and metrics
-- **Professional Styling**: Modern CSS with smooth animations
 
 ## 🚀 Quick Start
 
