@@ -1,78 +1,187 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Bus Ticket Booking</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        button, input { margin: 5px; padding: 8px; }
-        #output { margin-top: 15px; padding: 10px; border: 1px solid #ccc; background: #f7f7f7; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Ticket Booking System - Modern Travel Solutions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚌</text></svg>">
 </head>
 <body>
-    <h1>🚌 Bus Ticket Booking</h1>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>🚌 Bus Ticket Booking System</h1>
+            <p>Fast, Reliable, and Convenient Bus Travel Booking</p>
+        </header>
 
-    <h3>Book a Ticket</h3>
-    <input type="text" id="name" placeholder="Passenger Name">
-    <input type="text" id="bus" placeholder="Bus No.">
-    <input type="text" id="seat" placeholder="Seat No.">
-    <button onclick="bookTicket()">Book</button>
+        <!-- Statistics Dashboard -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number" id="total-tickets">0</span>
+                <div class="stat-label">Total Tickets</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="total-buses">5</span>
+                <div class="stat-label">Available Buses</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="booked-seats">0</span>
+                <div class="stat-label">Booked Seats</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="available-seats">200</span>
+                <div class="stat-label">Available Seats</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="occupancy-rate">0%</span>
+                <div class="stat-label">Occupancy Rate</div>
+            </div>
+        </section>
 
-    <h3>Show All Tickets</h3>
-    <button onclick="getTickets()">Get Tickets</button>
+        <!-- Main Content Grid -->
+        <div class="grid">
+            <!-- Book Ticket Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🎫</span>
+                    <h3 class="card-title">Book New Ticket</h3>
+                </div>
+                
+                <!-- Bus Selection -->
+                <div class="form-group">
+                    <label class="form-label">Select Bus</label>
+                    <div id="bus-selector" class="bus-selector">
+                        <!-- Bus options will be loaded dynamically -->
+                    </div>
+                </div>
 
-    <h3>Update a Ticket</h3>
-    <input type="number" id="updateId" placeholder="Ticket ID">
-    <input type="text" id="updateName" placeholder="New Name">
-    <button onclick="updateTicket()">Update</button>
+                <!-- Seat Map -->
+                <div class="form-group">
+                    <label class="form-label">Available Seats</label>
+                    <div id="seat-grid" class="seat-grid">
+                        <div class="seat available">Select a bus first</div>
+                    </div>
+                </div>
 
-    <h3>Cancel a Ticket</h3>
-    <input type="number" id="deleteId" placeholder="Ticket ID">
-    <button onclick="deleteTicket()">Cancel</button>
+                <form id="book-form">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Passenger Name *</label>
+                        <input type="text" id="name" class="form-input" placeholder="Enter full name" required 
+                               pattern="[a-zA-Z\s\-'\.]{2,}" title="Name should contain only letters, spaces, hyphens, and apostrophes">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bus" class="form-label">Bus Number *</label>
+                        <input type="text" id="bus" class="form-input" placeholder="e.g., BUS001" required 
+                               pattern="BUS\d{3}" title="Format: BUS001, BUS002, etc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="seat" class="form-label">Seat Number *</label>
+                        <input type="text" id="seat" class="form-input" placeholder="e.g., S01" required 
+                               pattern="S\d{2}" title="Format: S01, S02, etc.">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        🎫 Book Ticket
+                    </button>
+                </form>
+            </div>
 
-    <div id="output">Response will appear here...</div>
+            <!-- View Tickets Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📋</span>
+                    <h3 class="card-title">View Tickets</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="filterBus" class="form-label">Filter by Bus (Optional)</label>
+                    <input type="text" id="filterBus" class="form-input" placeholder="e.g., BUS001">
+                </div>
+                
+                <div class="btn-group">
+                    <button onclick="getTickets()" class="btn btn-secondary">
+                        📋 Show All Tickets
+                    </button>
+                    <button onclick="getTicketById()" class="btn btn-secondary">
+                        🔍 Get Ticket by ID
+                    </button>
+                    <button onclick="getBusInfo()" class="btn btn-secondary">
+                        🚌 Bus Information
+                    </button>
+                </div>
+            </div>
 
-    <script>
-        const output = document.getElementById("output");
+            <!-- Update Ticket Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">✏️</span>
+                    <h3 class="card-title">Update Ticket</h3>
+                </div>
+                
+                <form id="update-form">
+                    <div class="form-group">
+                        <label for="updateId" class="form-label">Ticket ID *</label>
+                        <input type="number" id="updateId" class="form-input" placeholder="Enter ticket ID" required min="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="updateName" class="form-label">New Passenger Name *</label>
+                        <input type="text" id="updateName" class="form-input" placeholder="Enter new name" required 
+                               pattern="[a-zA-Z\s\-'\.]{2,}" title="Name should contain only letters, spaces, hyphens, and apostrophes">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-warning">
+                        ✏️ Update Ticket
+                    </button>
+                </form>
+            </div>
 
-        function getTickets() {
-            fetch('/tickets')
-            .then(res => res.json())
-            .then(data => output.innerText = JSON.stringify(data, null, 2));
-        }
+            <!-- Cancel Ticket Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">❌</span>
+                    <h3 class="card-title">Cancel Ticket</h3>
+                </div>
+                
+                <form id="delete-form">
+                    <div class="form-group">
+                        <label for="deleteId" class="form-label">Ticket ID *</label>
+                        <input type="number" id="deleteId" class="form-input" placeholder="Enter ticket ID" required min="1">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-danger">
+                        ❌ Cancel Ticket
+                    </button>
+                </form>
+            </div>
+        </div>
 
-        function bookTicket() {
-            const name = document.getElementById("name").value;
-            const bus = document.getElementById("bus").value;
-            const seat = document.getElementById("seat").value;
+        <!-- Output Section -->
+        <section class="output-section">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💻</span>
+                    <h3 class="card-title">API Response</h3>
+                </div>
+                <div id="output" class="output">
+                    Welcome to the Bus Ticket Booking System!
+                    
+Ready to help you book, manage, and track your bus tickets.
+                </div>
+            </div>
+        </section>
 
-            fetch('/tickets', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name, bus, seat})
-            })
-            .then(res => res.json())
-            .then(data => output.innerText = JSON.stringify(data, null, 2));
-        }
+        <!-- Footer -->
+        <footer style="text-align: center; margin-top: 2rem; padding: 1rem; color: var(--text-secondary);">
+            <p>🚌 Bus Ticket Booking System | Modern Travel Solutions | Built with Flask & Python</p>
+            <p>Features: Real-time booking, seat selection, ticket management, and comprehensive API</p>
+        </footer>
+    </div>
 
-        function updateTicket() {
-            const id = document.getElementById("updateId").value;
-            const name = document.getElementById("updateName").value;
-
-            fetch('/tickets/' + id, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name})
-            })
-            .then(res => res.json())
-            .then(data => output.innerText = JSON.stringify(data, null, 2));
-        }
-
-        function deleteTicket() {
-            const id = document.getElementById("deleteId").value;
-            fetch('/tickets/' + id, { method: 'DELETE' })
-            .then(res => res.json())
-            .then(data => output.innerText = JSON.stringify(data, null, 2));
-        }
-    </script>
+    <!-- Load JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

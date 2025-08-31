@@ -1,2 +1,12 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Linguist overrides to ensure Python is recognized as primary language
+*.py linguist-language=Python
+*.html linguist-documentation
+*.css linguist-documentation
+*.js linguist-documentation
+
+# Mark templates as documentation to reduce their weight
+templates/* linguist-documentation
+static/* linguist-documentation
