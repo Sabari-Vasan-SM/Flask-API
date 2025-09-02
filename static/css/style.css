@@ -653,3 +653,273 @@ body::before {
         grid-template-columns: 1fr;
     }
 }
+
+/* Enhanced JavaScript-specific Styles */
+
+/* Notification System */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    color: white;
+    font-weight: 500;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 300px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(10px);
+}
+
+.notification.success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9));
+}
+
+.notification.error {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 38, 0.9));
+}
+
+.notification.info {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(79, 70, 229, 0.9));
+}
+
+.notification button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.notification button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Confetti Animation */
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #6366f1;
+    animation: confettiFall 3s linear infinite;
+    z-index: 1000;
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Floating Particles */
+.particle {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    animation: particleFloat linear infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(50px);
+        opacity: 0;
+    }
+}
+
+/* Form Input States */
+.form-input.valid {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.form-input.error {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Loading Spinner */
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+/* Enhanced Bus Options */
+.bus-option {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    padding: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    background: var(--card-background);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.bus-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: all 0.3s ease;
+}
+
+.bus-option:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.bus-option:hover::before {
+    left: 100%;
+}
+
+.bus-option.selected {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    color: white;
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+    animation: pulse 1s ease-in-out;
+}
+
+.bus-id {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.bus-route {
+    font-size: 0.875rem;
+    opacity: 0.8;
+    margin: 0.5rem 0;
+    font-weight: 500;
+}
+
+.bus-price {
+    font-weight: 600;
+    color: var(--success-color);
+    font-size: 1.1rem;
+}
+
+.bus-option.selected .bus-price {
+    color: white;
+}
+
+/* Form Focus States */
+.form-group.focused .form-label {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* Enhanced Seat Styling */
+.seat {
+    position: relative;
+    overflow: hidden;
+}
+
+.seat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.seat:hover::before {
+    opacity: 1;
+}
+
+/* Enhanced card animations - override for JavaScript-specific behavior */
+.card {
+    animation: slideInUp 0.8s ease-out calc(var(--delay, 0) * 0.2s) both;
+}
+
+/* Mobile notification adjustments */
+@media (max-width: 768px) {
+    .notification {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        transform: translateY(-100%);
+    }
+    
+    .notification.show {
+        transform: translateY(0);
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+/* Focus indicators for accessibility */
+.btn:focus,
+.form-input:focus,
+.seat:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
