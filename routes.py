@@ -1,65 +1,100 @@
 # API Routes for Bus Ticket Booking System
+# This file contains all the REST API endpoints for the bus booking system
 
+# Import Flask components for building web APIs
 from flask import Blueprint, request, jsonify, render_template
+
+# Import our custom models for ticket management
 from models import TicketManager
+
+# Import utility functions for validation, formatting, and logging
 from utils import (
     validate_ticket_data, format_response, sanitize_input,
     format_bus_number, format_seat_number, log_activity,
     get_system_stats, calculate_fare, get_seat_type
 )
 
-# Create Blueprint for API routes
+# Create Blueprint for API routes - this groups related routes together
+# Blueprint allows us to organize routes and register them with the main app
 api = Blueprint('api', __name__)
 
-# Initialize ticket manager
+# Initialize ticket manager - this handles all ticket operations
+# Single instance shared across all requests for data consistency
 ticket_manager = TicketManager()
 
 @api.route('/api/tickets', methods=['GET'])
 def get_all_tickets():
-    """Get all tickets with optional filtering"""
+    """
+    GET endpoint to retrieve all tickets with optional filtering
+    Query parameters:
+    - bus: Filter tickets by bus number (e.g., BUS001)
+    - status: Filter by ticket status (default: confirmed)
+    
+    Returns:
+        JSON response with list of tickets or error message
+    """
     try:
-        bus_filter = request.args.get('bus')
-        status_filter = request.args.get('status', 'confirmed')
+        # Extract query parameters from the request URL
+        bus_filter = request.args.get('bus')        # Optional bus filter
+        status_filter = request.args.get('status', 'confirmed')  # Status filter with default
         
+        # Get all tickets from the ticket manager
         all_tickets = ticket_manager.get_all_tickets()
         
-        # Apply filters
+        # Apply bus filter if provided
         if bus_filter:
             all_tickets = {
                 tid: ticket for tid, ticket in all_tickets.items()
-                if ticket.get('bus') == bus_filter.upper()
+                if ticket.get('bus') == bus_filter.upper()  # Convert to uppercase for consistency
             }
         
+        # Apply status filter if provided
         if status_filter:
             all_tickets = {
                 tid: ticket for tid, ticket in all_tickets.items()
-                if ticket.get('status') == status_filter
+                if ticket.get('status') == status_filter  # Filter by ticket status
             }
         
+        # Log this activity for auditing and monitoring purposes
         log_activity("GET_TICKETS", details={"filter_bus": bus_filter, "filter_status": status_filter})
         
+        # Return successful response with ticket data
         return jsonify(format_response(
-            True, 
-            f"Retrieved {len(all_tickets)} tickets", 
-            {"tickets": all_tickets, "count": len(all_tickets)}
+            True,                               # Success status
+            f"Retrieved {len(all_tickets)} tickets",  # Success message
+            {"tickets": all_tickets, "count": len(all_tickets)}  # Data payload
         ))
         
     except Exception as e:
+        # Handle any unexpected errors and return error response
         return jsonify(format_response(False, str(e), error_code="GET_TICKETS_ERROR")), 500
 
 @api.route('/api/tickets', methods=['POST'])
 def create_ticket():
-    """Create a new bus ticket"""
+    """
+    POST endpoint to create a new bus ticket
+    Expected JSON payload:
+    {
+        "name": "Passenger Name",
+        "bus": "BUS001",
+        "seat": "S01"
+    }
+    
+    Returns:
+        JSON response with created ticket details or error message
+    """
     try:
+        # Parse JSON data from request body
         data = request.json
         if not data:
+            # Return error if no data is provided
             return jsonify(format_response(False, "No data provided", error_code="NO_DATA")), 400
         
-        # Sanitize inputs
+        # Sanitize and format input data to prevent injection attacks
         sanitized_data = {
-            'name': sanitize_input(data.get('name', '')),
-            'bus': format_bus_number(data.get('bus', '')),
-            'seat': format_seat_number(data.get('seat', ''))
+            'name': sanitize_input(data.get('name', '')),     # Clean passenger name
+            'bus': format_bus_number(data.get('bus', '')),    # Format bus number (BUS001)
+            'seat': format_seat_number(data.get('seat', ''))  # Format seat number (S01)
         }
         
         # Validate data

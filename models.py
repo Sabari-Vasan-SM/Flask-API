@@ -1,33 +1,67 @@
 # Bus Ticket Booking Models
+# This file contains data models for the bus booking system
 
+# Import standard libraries for date/time handling and type annotations
 from datetime import datetime
 from typing import Dict, List, Optional
 import json
 
 class Ticket:
-    """Ticket model for bus reservations"""
+    """
+    Ticket model representing a bus reservation
+    
+    This class encapsulates all information about a bus ticket including
+    passenger details, bus information, seat assignment, and booking status.
+    """
     
     def __init__(self, ticket_id: int, name: str, bus: str, seat: str, 
                  booking_time: Optional[datetime] = None):
-        self.id = ticket_id
-        self.name = name
-        self.bus = bus
-        self.seat = seat
-        self.booking_time = booking_time or datetime.now()
-        self.status = "confirmed"
+        """
+        Initialize a new ticket instance
+        
+        Args:
+            ticket_id: Unique identifier for the ticket
+            name: Passenger's full name
+            bus: Bus number (e.g., BUS001)
+            seat: Seat number (e.g., S01)
+            booking_time: When the ticket was booked (defaults to now)
+        """
+        self.id = ticket_id                             # Unique ticket identifier
+        self.name = name                                # Passenger name
+        self.bus = bus                                  # Bus number
+        self.seat = seat                                # Assigned seat
+        self.booking_time = booking_time or datetime.now()  # Booking timestamp
+        self.status = "confirmed"                       # Ticket status (confirmed/cancelled)
     
     def to_dict(self) -> Dict:
-        """Convert ticket to dictionary"""
+        """
+        Convert ticket object to dictionary format
+        
+        This method serializes the ticket for JSON responses and storage.
+        The booking_time is converted to ISO format for standardization.
+        
+        Returns:
+            Dict: Dictionary representation of the ticket
+        """
         return {
-            "id": self.id,
-            "name": self.name,
-            "bus": self.bus,
-            "seat": self.seat,
-            "booking_time": self.booking_time.isoformat(),
-            "status": self.status
+            "id": self.id,                              # Ticket ID
+            "name": self.name,                          # Passenger name
+            "bus": self.bus,                            # Bus number
+            "seat": self.seat,                          # Seat assignment
+            "booking_time": self.booking_time.isoformat(),  # ISO formatted timestamp
+            "status": self.status                       # Current status
         }
     
     def update(self, **kwargs):
+        """
+        Update ticket attributes dynamically
+        
+        This method allows updating any ticket attribute by providing
+        keyword arguments. Only valid attributes are updated.
+        
+        Args:
+            **kwargs: Key-value pairs of attributes to update
+        """
         """Update ticket attributes"""
         for key, value in kwargs.items():
             if hasattr(self, key) and key != 'id':

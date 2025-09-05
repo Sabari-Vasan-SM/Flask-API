@@ -1,5 +1,7 @@
 # Utility functions for Bus Ticket Booking API
+# This file contains helper functions for validation, formatting, and data processing
 
+# Import modules for regex validation, date/time handling, and data types
 import re
 from datetime import datetime
 from typing import List, Dict, Any, Optional
@@ -7,26 +9,71 @@ import json
 import hashlib
 
 def validate_passenger_name(name: str) -> bool:
-    """Validate passenger name format"""
+    """
+    Validate passenger name format and length
+    
+    Ensures the passenger name meets business requirements:
+    - At least 2 characters long
+    - Contains only valid characters (letters, spaces, hyphens, apostrophes, dots)
+    - Prevents injection attacks through character filtering
+    
+    Args:
+        name (str): Passenger name to validate
+        
+    Returns:
+        bool: True if name is valid, False otherwise
+    """
+    # Check if name exists and has minimum length after trimming whitespace
     if not name or len(name.strip()) < 2:
         return False
-    # Allow letters, spaces, hyphens, and apostrophes
+    
+    # Define allowed characters pattern - letters, spaces, hyphens, and apostrophes
     pattern = r"^[a-zA-Z\s\-'\.]+$"
+    
+    # Return True if name matches pattern, False otherwise
     return bool(re.match(pattern, name.strip()))
 
 def validate_bus_number(bus_number: str) -> bool:
-    """Validate bus number format"""
+    """
+    Validate bus number format according to system standards
+    
+    Expected format: BUS followed by exactly 3 digits (e.g., BUS001, BUS002)
+    This ensures consistency across the booking system.
+    
+    Args:
+        bus_number (str): Bus number to validate
+        
+    Returns:
+        bool: True if bus number format is valid, False otherwise
+    """
+    # Check if bus number is provided
     if not bus_number:
         return False
-    # Expected format: BUS001, BUS002, etc.
+    
+    # Define expected format pattern: BUS + exactly 3 digits
     pattern = r"^BUS\d{3}$"
+    
+    # Validate against pattern (case-insensitive by converting to uppercase)
     return bool(re.match(pattern, bus_number.upper()))
 
 def validate_seat_number(seat_number: str) -> bool:
-    """Validate seat number format"""
+    """
+    Validate seat number format for bus booking system
+    
+    Expected format: S followed by exactly 2 digits (e.g., S01, S02, ..., S40)
+    This maintains consistency with the 40-seat bus configuration.
+    
+    Args:
+        seat_number (str): Seat number to validate
+        
+    Returns:
+        bool: True if seat number format is valid, False otherwise
+    """
+    # Check if seat number is provided
     if not seat_number:
         return False
-    # Expected format: S01, S02, ..., S40
+    
+    # Define expected format pattern: S + exactly 2 digits
     pattern = r"^S\d{2}$"
     return bool(re.match(pattern, seat_number.upper()))
 
