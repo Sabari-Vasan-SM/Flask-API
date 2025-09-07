@@ -1,33 +1,16 @@
 # Bus Ticket Booking Models
-# This file contains data models for the bus booking system
-
-# Import standard libraries for date/time handling and type annotations
 from datetime import datetime
 from typing import Dict, List, Optional
 import json
 
 class Ticket:
-    """
-    Ticket model representing a bus reservation
-    
-    This class encapsulates all information about a bus ticket including
-    passenger details, bus information, seat assignment, and booking status.
-    """
+    """Ticket model representing a bus reservation"""
     
     def __init__(self, ticket_id: int, name: str, bus: str, seat: str, 
                  booking_time: Optional[datetime] = None):
-        """
-        Initialize a new ticket instance
-        
-        Args:
-            ticket_id: Unique identifier for the ticket
-            name: Passenger's full name
-            bus: Bus number (e.g., BUS001)
-            seat: Seat number (e.g., S01)
-            booking_time: When the ticket was booked (defaults to now)
-        """
-        self.id = ticket_id                             # Unique ticket identifier
-        self.name = name                                # Passenger name
+        """Initialize a new ticket"""
+        self.id = ticket_id
+        self.name = name
         self.bus = bus                                  # Bus number
         self.seat = seat                                # Assigned seat
         self.booking_time = booking_time or datetime.now()  # Booking timestamp

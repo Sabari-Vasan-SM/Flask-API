@@ -1,62 +1,43 @@
-# Import Flask framework for web application
+# Import Flask framework
 from flask import Flask, render_template
 
-# Import configuration settings from config module
+# Import configuration settings
 from config import config
 
-# Import API routes blueprint from routes module
+# Import API routes
 from routes import api
 
 def create_app(config_name='development'):
     """
-    Application factory pattern for creating Flask app instances.
-    This allows for easier testing and multiple app configurations.
-    
-    Args:
-        config_name (str): Configuration environment ('development', 'production', etc.)
-    
-    Returns:
-        Flask: Configured Flask application instance
+    Create Flask app with given configuration
     """
-    # Create Flask application instance with current module name
+    # Create Flask app
     app = Flask(__name__)
     
-    # Load configuration settings based on environment
-    # This sets up database URLs, secret keys, debug modes, etc.
+    # Load configuration
     app.config.from_object(config[config_name])
     
-    # Register API routes blueprint with the application
-    # This adds all /api/* endpoints to the app
+    # Register API routes
     app.register_blueprint(api)
     
-    # Define home route that serves the main HTML page
+    # Home page route
     @app.route('/')
     def home():
-        """
-        Home page route - serves the main bus booking interface
-        Returns the index.html template with the booking form
-        """
+        """Serve main page"""
         return render_template('index.html')
     
-    # Define health check endpoint for monitoring
+    # Health check route
     @app.route('/health')
     def health_check():
-        """
-        Health check endpoint for application monitoring
-        Returns JSON response indicating service status
-        """
+        """Check if service is running"""
         return {"status": "healthy", "service": "Bus Ticket Booking API"}
     
-    # Return the configured Flask application
     return app
 
-# Application entry point - only runs when script is executed directly
+# Run app if this file is executed directly
 if __name__ == '__main__':
-    # Create application instance using development configuration
+    # Create app instance
     app = create_app()
     
-    # Start the Flask development server
-    # debug=True: Enables auto-reload and detailed error pages
-    # host='0.0.0.0': Makes server accessible from any IP address
-    # port=5000: Sets the server port to 5000
+    # Start development server
     app.run(debug=True, host='0.0.0.0', port=5000)

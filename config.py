@@ -1,33 +1,23 @@
 # Bus Ticket Booking API Configuration
-# This file contains all configuration settings for different environments
-
-# Import OS module for environment variables and timedelta for time-based settings
 import os
 from datetime import timedelta
 
 class Config:
-    """
-    Base configuration class containing common settings
+    """Base configuration class"""
     
-    This class defines default configuration values that are shared
-    across all environments (development, testing, production).
-    """
-    
-    # Secret key for session management and CSRF protection
-    # In production, this should be set via environment variable for security
+    # Secret key for session management
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
     
-    # Debug mode settings - enables detailed error pages and auto-reload
+    # Debug mode settings
     DEBUG = True
     
-    # Testing mode flag - used for unit tests and automated testing
+    # Testing mode flag
     TESTING = False
     
-    # Database configuration for future expansion to persistent storage
-    # Currently using in-memory storage, but ready for SQLite/PostgreSQL
+    # Database configuration
     DATABASE_URL = os.environ.get('DATABASE_URL') or 'sqlite:///tickets.db'
     
-    # Session configuration for user session management
+    # Session configuration
     SESSION_PERMANENT = False                    # Sessions expire when browser closes
     PERMANENT_SESSION_LIFETIME = timedelta(hours=2)  # Maximum session duration
     

@@ -1,32 +1,31 @@
-// Modern Bus Ticket Booking System with Enhanced Animations and Interactions
-// This JavaScript file handles all frontend functionality for the bus booking system
+// Modern Bus Ticket Booking System
 
 class ModernBusTicketManager {
     constructor() {
-        // Initialize instance variables to track user selections and system state
-        this.selectedBus = '';              // Currently selected bus number (e.g., 'BUS001')
-        this.selectedSeat = '';             // Currently selected seat number (e.g., 'S01')
-        this.availableSeats = {};           // Cache of available seats per bus
+        // Initialize variables
+        this.selectedBus = '';
+        this.selectedSeat = '';
+        this.availableSeats = {};
         
-        // Initialize statistics object to track system metrics
+        // Initialize statistics
         this.stats = {
-            totalTickets: 0,                // Total number of tickets booked
-            totalBuses: 5,                  // Number of buses in the system
-            bookedSeats: 0,                 // Total number of booked seats
-            availableSeats: 200,            // Total number of available seats
-            occupancyRate: 0                // Percentage of seats occupied
+            totalTickets: 0,
+            totalBuses: 5,
+            bookedSeats: 0,
+            availableSeats: 200,
+            occupancyRate: 0
         };
         
-        // Define bus data with routes, pricing, and capacity information
+        // Define bus data
         this.busData = {
-            'BUS001': { route: 'Mumbai → Delhi', seats: 40, price: 1200 },        // Long distance, premium route
-            'BUS002': { route: 'Delhi → Bangalore', seats: 40, price: 1800 },     // Cross-country route
-            'BUS003': { route: 'Chennai → Hyderabad', seats: 40, price: 900 },    // Regional route
-            'BUS004': { route: 'Pune → Goa', seats: 40, price: 600 },             // Popular tourist route
-            'BUS005': { route: 'Kolkata → Bhubaneswar', seats: 40, price: 800 }   // Eastern region route
+            'BUS001': { route: 'Mumbai → Delhi', seats: 40, price: 1200 },
+            'BUS002': { route: 'Delhi → Bangalore', seats: 40, price: 1800 },
+            'BUS003': { route: 'Chennai → Hyderabad', seats: 40, price: 900 },
+            'BUS004': { route: 'Pune → Goa', seats: 40, price: 600 },
+            'BUS005': { route: 'Kolkata → Bhubaneswar', seats: 40, price: 800 }
         };
         
-        // Initialize the application once the object is created
+        // Initialize the application
         this.init();
     }
 

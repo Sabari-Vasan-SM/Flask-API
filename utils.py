@@ -1,7 +1,4 @@
 # Utility functions for Bus Ticket Booking API
-# This file contains helper functions for validation, formatting, and data processing
-
-# Import modules for regex validation, date/time handling, and data types
 import re
 from datetime import datetime
 from typing import List, Dict, Any, Optional
@@ -9,25 +6,12 @@ import json
 import hashlib
 
 def validate_passenger_name(name: str) -> bool:
-    """
-    Validate passenger name format and length
-    
-    Ensures the passenger name meets business requirements:
-    - At least 2 characters long
-    - Contains only valid characters (letters, spaces, hyphens, apostrophes, dots)
-    - Prevents injection attacks through character filtering
-    
-    Args:
-        name (str): Passenger name to validate
-        
-    Returns:
-        bool: True if name is valid, False otherwise
-    """
-    # Check if name exists and has minimum length after trimming whitespace
+    """Validate passenger name format and length"""
+    # Check if name exists and has minimum length
     if not name or len(name.strip()) < 2:
         return False
     
-    # Define allowed characters pattern - letters, spaces, hyphens, and apostrophes
+    # Define allowed characters pattern
     pattern = r"^[a-zA-Z\s\-'\.]+$"
     
     # Return True if name matches pattern, False otherwise
