@@ -3,50 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Ticket Booking System - Modern Travel Solutions</title>
+    <title>NextGen Bus Booking - Modern Travel Solutions</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚌</text></svg>">
+    <meta name="description" content="Modern, fast, and reliable bus ticket booking system with real-time seat selection">
+    <meta name="keywords" content="bus booking, travel, tickets, transportation">
 </head>
 <body>
     <div class="container">
-        <!-- Header Section -->
+        <!-- Futuristic Header -->
         <header class="header">
-            <h1>🚌 Bus Ticket Booking System</h1>
-            <p>Fast, Reliable, and Convenient Bus Travel Booking</p>
+            <h1>🚀 NextGen Bus Booking</h1>
+            <p>Experience the future of travel with our ultra-modern booking platform featuring real-time updates, smart seat selection, and instant confirmations.</p>
         </header>
 
-        <!-- Statistics Dashboard -->
+        <!-- Enhanced Statistics Dashboard -->
         <section class="stats-grid">
             <div class="stat-card">
                 <span class="stat-number" id="total-tickets">0</span>
-                <div class="stat-label">Total Tickets</div>
+                <div class="stat-label">Total Bookings</div>
             </div>
             <div class="stat-card">
                 <span class="stat-number" id="total-buses">5</span>
-                <div class="stat-label">Available Buses</div>
+                <div class="stat-label">Active Routes</div>
             </div>
             <div class="stat-card">
                 <span class="stat-number" id="booked-seats">0</span>
-                <div class="stat-label">Booked Seats</div>
+                <div class="stat-label">Reserved Seats</div>
             </div>
             <div class="stat-card">
                 <span class="stat-number" id="available-seats">200</span>
-                <div class="stat-label">Available Seats</div>
+                <div class="stat-label">Open Seats</div>
             </div>
             <div class="stat-card">
                 <span class="stat-number" id="occupancy-rate">0%</span>
-                <div class="stat-label">Occupancy Rate</div>
+                <div class="stat-label">Fleet Utilization</div>
             </div>
         </section>
 
-        <!-- Main Content Grid -->
+        <!-- Main Interactive Grid -->
         <div class="grid">
-            <!-- Book Ticket Card -->
+            <!-- Smart Booking Interface -->
             <div class="card">
                 <div class="card-header">
-                    <span class="card-icon">🎫</span>
-                    <h3 class="card-title">Book New Ticket</h3>
+                    <span class="card-icon">🎯</span>
+                    <h3 class="card-title">Smart Booking Engine</h3>
                 </div>
+                
+                <!-- Interactive Bus Selection -->
+                <div class="form-group">
+                    <label class="form-label">Select Your Route</label>
+                    <div id="bus-selector" class="bus-selector">
+                        <!-- Dynamic bus options will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Intelligent Seat Map -->
+                <div class="form-group">
+                    <label class="form-label">Choose Your Seat</label>
+                    <div id="seat-grid" class="seat-grid">
+                        <!-- Dynamic seat map will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <form id="book-form" class="booking-form">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Passenger Name</label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            class="form-input" 
+                            placeholder="Enter full name"
+                            pattern="[A-Za-z\s]{2,50}"
+                            required
+                            autocomplete="name"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bus" class="form-label">Bus Route</label>
+                        <input 
+                            type="text" 
+                            id="bus" 
+                            name="bus" 
+                            class="form-input" 
+                            placeholder="BUS001"
+                            pattern="BUS[0-9]{3}"
+                            required
+                            readonly
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="seat" class="form-label">Seat Number</label>
+                        <input 
+                            type="text" 
+                            id="seat" 
+                            name="seat" 
+                            class="form-input" 
+                            placeholder="S01"
+                            pattern="S[0-9]{2}"
+                            required
+                            readonly
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <span>🎫</span>
+                        Book Ticket Now
+                    </button>
+                </form>
+            </div>
+
+            <!-- Ticket Management Hub -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">⚡</span>
+                    <h3 class="card-title">Manage Bookings</h3>
+                </div>
+                
+                <!-- Update Ticket -->
+                <form id="update-form" class="update-form">
+                    <div class="form-group">
+                        <label for="updateId" class="form-label">Ticket ID</label>
+                        <input 
+                            type="text" 
+                            id="updateId" 
+                            name="updateId" 
+                            class="form-input" 
+                            placeholder="Enter ticket ID"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="updateName" class="form-label">New Passenger Name</label>
+                        <input 
+                            type="text" 
+                            id="updateName" 
+                            name="updateName" 
+                            class="form-input" 
+                            placeholder="Enter new name"
+                            pattern="[A-Za-z\s]{2,50}"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn btn-secondary">
+                        <span>✏️</span>
+                        Update Booking
+                    </button>
+                </form>
+
+                <!-- Cancel Ticket -->
+                <form id="delete-form" class="delete-form">
+                    <div class="form-group">
+                        <label for="deleteId" class="form-label">Cancel Booking</label>
+                        <input 
+                            type="text" 
+                            id="deleteId" 
+                            name="deleteId" 
+                            class="form-input" 
+                            placeholder="Enter ticket ID to cancel"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn btn-danger">
+                        <span>🗑️</span>
+                        Cancel Ticket
+                    </button>
+                </form>
+            </div>
+
+            <!-- Advanced Search & Filter -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🔍</span>
+                    <h3 class="card-title">Search & Analytics</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="filterBus" class="form-label">Filter by Route</label>
+                    <input 
+                        type="text" 
+                        id="filterBus" 
+                        name="filterBus" 
+                        class="form-input" 
+                        placeholder="BUS001 (optional)"
+                        pattern="BUS[0-9]{3}"
+                    >
+                </div>
+
+                <!-- Quick Action Buttons -->
+                <div class="action-buttons">
+                    <button onclick="getTickets()" class="btn btn-secondary">
+                        <span>📋</span>
+                        View All Bookings
+                    </button>
+                    
+                    <button onclick="getTicketById()" class="btn btn-secondary">
+                        <span>🔍</span>
+                        Find Ticket
+                    </button>
+                    
+                    <button onclick="getBusInfo()" class="btn btn-secondary">
+                        <span>🚌</span>
+                        Route Information
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-time System Output -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">💻</span>
+                <h3 class="card-title">System Response</h3>
+            </div>
+            <div id="output" class="output">
+                System initializing... Ready for commands!
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced JavaScript Integration -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    
+    <!-- Performance Monitoring -->
+    <script>
+        // Page load performance tracking
+        window.addEventListener('load', () => {
+            const loadTime = performance.now();
+            console.log(`🚀 Page loaded in ${Math.round(loadTime)}ms`);
+            
+            // Add entrance animations to cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        });
+
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Quick access shortcuts
+            if (e.altKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        document.getElementById('name').focus();
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        document.getElementById('updateId').focus();
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        document.getElementById('deleteId').focus();
+                        break;
+                }
+            }
+        });
+
+        // Enhanced visual feedback
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add ripple effect to buttons
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    this.appendChild(ripple);
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+        });
+    </script>
+
+    <!-- Additional CSS for enhanced effects -->
+    <style>
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .card {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced glow effects */
+        .stat-card:nth-child(1) { --glow-color: rgba(139, 92, 246, 0.3); }
+        .stat-card:nth-child(2) { --glow-color: rgba(6, 182, 212, 0.3); }
+        .stat-card:nth-child(3) { --glow-color: rgba(245, 158, 11, 0.3); }
+        .stat-card:nth-child(4) { --glow-color: rgba(16, 185, 129, 0.3); }
+        .stat-card:nth-child(5) { --glow-color: rgba(239, 68, 68, 0.3); }
+
+        .stat-card:hover {
+            box-shadow: 0 0 30px var(--glow-color, rgba(139, 92, 246, 0.3));
+        }
+    </style>
+</body>
+</html>
                 
                 <!-- Bus Selection -->
                 <div class="form-group">
